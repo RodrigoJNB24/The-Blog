@@ -1,3 +1,8 @@
-export default function HomePage() {
-  return <h1>Hello de page.tsx</h1>
+import { Header } from '@/components/Header';
+
+export default async function HomePage() {
+  console.log('server')
+  return (
+    <Header/>
+  );
 }

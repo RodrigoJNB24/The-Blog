@@ -19,30 +19,15 @@ export const metadata: Metadata = {
 
 type RootLayoutProps = {
   children: React.ReactNode;
-}
+};
 
-export default function RootLayout({
-  children,
-}: Readonly<RootLayoutProps>) {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <header>
-          <h1>Meu cabecalho</h1>
-        </header>
-        <div className="bg-red-500">
-          {children}
-        
-        </div>
-      
-        <footer>
-          <h1>Meu rodape</h1>
-        </footer>
-
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

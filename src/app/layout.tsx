@@ -1,6 +1,10 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Container } from "@/components/Container";
+import { Header } from "@/components/Header";
+import clsx from "clsx";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +28,20 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html
-      lang="pt-BR"
+      lang='pt-BR'
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className='min-h-full flex flex-col'>
+        <Container>
+          <Header />
+          {children}
+          <footer>
+            <p className={clsx('text-6xl', 'font-bold', 'text-center', 'py-8')}>
+              FOOTER
+            </p>
+          </footer>
+        </Container>
+      </body>
     </html>
   );
 }

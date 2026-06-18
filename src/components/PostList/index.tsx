@@ -1,42 +1,41 @@
-import { postRepository } from '@/repositories/post';
 import { PostCoverImage } from '../PostCoverImage';
-import { PostHeading } from '../PostHeading';
-import { PostFeatures } from '../PostFeatures';
+import { PostSummary } from '../PostSummary';
+import { findAllPublicPosts } from '@/lib/post/queries';
 
 export async function PostList() {
-  const post = await postRepository.findAll();
+  const post = await findAllPublicPosts();
 
   return (
     <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
-      {post.map(post => {
-        return (
-          <div className='flex flex-col gap-3 group' key={post.id}>
+      {post
+        .slice(1)
+        .map(({ id, coverImageUrl, title, createdAt, excerpt, slug }) => {
+          const postLink = `/post/${slug}`;
 
-            <PostCoverImage
-              imageProps={{ 
-                src: post.coverImageUrl,
-                alt: post.title,
-                width: 1200,
-                height: 720,
-              }}
-              linkProps={{
-                href: `/post/${post.slug}`,
-              }}
-            />
+          return (
+            <div className='grid grid-rows-subgrid gap-3 group' key={id}>
+              <PostCoverImage
+                imageProps={{
+                  src: coverImageUrl,
+                  alt: title,
+                  width: 1200,
+                  height: 720,
+                }}
+                linkProps={{
+                  href: postLink,
+                }}
+              />
 
-            <PostFeatures time={post.createdAt}>
-              <PostHeading url={`/${post.slug}`} as='h2'>
-                {post.title}
-              </PostHeading>
-
-              <p>
-                {post.excerpt}
-              </p>
-            </PostFeatures>
-
-          </div>
-        );
-      })}
+              <PostSummary
+                createdAt={createdAt}
+                excerpt={excerpt}
+                title={title}
+                postHeading='h2'
+                postLink={postLink}
+              />
+            </div>
+          );
+        })}
     </div>
   );
 }

@@ -55,7 +55,7 @@
       "excerpt": "Também ajuda a organizar melhor os arquivos e componentes, o que facilita a manutenção do projeto no longo prazo.",
       "content": "Também ajuda a organizar melhor os arquivos e componentes, o que facilita a manutenção do projeto no longo prazo.",
       "coverImageUrl": "/images/bryen_5.png",
-      "published": false,
+      "published": true,
       "createdAt": "2025-03-30T07:11:33",
       "updatedAt": "2025-04-05T00:14:03.175Z",
       "author": "Lucas Lima"
@@ -115,7 +115,7 @@
       "excerpt": "o Next.js já vem com várias decisões prontas, permitindo que você comece a desenvolver mais rapidamente.",
       "content": "o Next.js já vem com várias decisões prontas, permitindo que você comece a desenvolver mais rapidamente.",
       "coverImageUrl": "/images/bryen_2.png",
-      "published": false,
+      "published": true,
       "createdAt": "2025-01-07T22:54:10",
       "updatedAt": "2025-01-07T22:54:10",
       "author": "Carla Mendes"

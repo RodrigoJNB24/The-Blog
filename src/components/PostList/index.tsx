@@ -13,7 +13,7 @@ export async function PostList() {
           const postLink = `/post/${slug}`;
 
           return (
-            <div className='grid grid-rows-subgrid gap-3 group' key={id}>
+            <div className='flex flex-col gap-3 group' key={id}>
               <PostCoverImage
                 imageProps={{
                   src: coverImageUrl,

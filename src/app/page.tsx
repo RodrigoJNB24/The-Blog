@@ -17,9 +17,5 @@ export default async function HomePage() {
         <PostList />
       </Suspense>
     </>
-
-
-      
-
   );
 }

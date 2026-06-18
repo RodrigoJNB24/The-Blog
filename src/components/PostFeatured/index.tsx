@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { PostCoverImage } from '../PostCoverImage';
 import { PostSummary } from '../PostSummary';
-import { postRepository } from '@/repositories/post';
 import { findAllPublicPosts } from '@/lib/post/queries';
 
 export async function PostFeatured() {

@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Container } from "@/components/Container";
 import { Header } from "@/components/Header";
-import clsx from "clsx";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +17,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Blog - Este é meu blogue",
+  title:  {
+    default: 'The Blog - Este é meu blog',
+    template: 'The Blog | %s '
+  },
   description: "Descrição da pagina",
 };
 
@@ -35,11 +38,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <Container>
           <Header />
           {children}
-          <footer>
-            <p className={clsx('text-6xl', 'font-bold', 'text-center', 'py-8')}>
-              FOOTER
-            </p>
-          </footer>
+          <Footer/>
         </Container>
       </body>
     </html>

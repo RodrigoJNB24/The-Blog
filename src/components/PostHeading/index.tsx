@@ -7,7 +7,7 @@ type PostHeadingProps = {
   as?: 'h1' | 'h2';
 };
 
-export function PostHeading({
+export default function PostHeading({
   children,
   url,
   as: Tag = 'h2',

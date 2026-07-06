@@ -30,12 +30,7 @@ export default function ErrorMessage({ pageTitle, contentTitle, content }: Error
             <p>
               {content}
             </p>
-            <p className='mt-8'>
-              Voltar para o{' '}
-              <span className='underline'>
-                <Link href='/'>The Blog</Link>
-              </span>
-            </p>
+            
           </div>
         </div>
       </div>

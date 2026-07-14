@@ -1,14 +1,18 @@
+'use Client';
+
 import clsx from 'clsx';
-import Link from 'next/link';
-import React from 'react';
 
 type ErrorMessageProps = {
   pageTitle: string;
   contentTitle: string;
   content: React.ReactNode;
-}
+};
 
-export default function ErrorMessage({ pageTitle, contentTitle, content }: ErrorMessageProps) {
+export default function ErrorMessage({
+  pageTitle,
+  contentTitle,
+  content,
+}: ErrorMessageProps) {
   return (
     <>
       <title>{pageTitle}</title>
@@ -27,10 +31,7 @@ export default function ErrorMessage({ pageTitle, contentTitle, content }: Error
         <div>
           <h1 className='text-4xl/tight mb-4'>{contentTitle}</h1>
           <div>
-            <p>
-              {content}
-            </p>
-            
+            <>{content}</>
           </div>
         </div>
       </div>

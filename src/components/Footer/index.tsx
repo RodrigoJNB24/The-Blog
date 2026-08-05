@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import Link from "next/link";
 
-export default function Footer() {
+export default async function Footer() {
+  'use cache';
   return (
     <footer className={clsx('pb-16', 'text-center')}>
       <p>

@@ -3,6 +3,8 @@ import {
   formatDistanceToNow as dateFnsFormatDistanceToNow,
 } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { cacheTag } from 'next/cache';
+import { cacheLife } from 'next/cache';
 
 export function formatDatetime(rawdate: string): string {
   const date = new Date(rawdate);
@@ -12,7 +14,9 @@ export function formatDatetime(rawdate: string): string {
   });
 }
 
-export function formatDistanceToNow(rawdate: string): string {
+export async function formatDistanceToNow(rawdate: string): Promise<string> {
+  'use cache';
+  cacheLife('seconds')
   const date = new Date(rawdate);
 
   return dateFnsFormatDistanceToNow(date, {
@@ -21,20 +25,22 @@ export function formatDistanceToNow(rawdate: string): string {
   });
 }
 
-function formatTime(time: string | Date) {
-  const dateTime = typeof time === 'string' ? new Date(time) : time;
+export function formatHour(timestamp: number): string {
+  const date = new Date(timestamp);
 
-  return new Intl.DateTimeFormat('pt-br', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  })
-    .format(dateTime)
-    .replace(',', '');
+  return format(date, 'HH:mm:ss', {
+    locale: ptBR,
+  });
 }
 
+export async function formatHourCached() {
+  'use cache';
+  cacheLife('seconds');
+  cacheTag('formatHourCached');
+  return formatHour(Date.now());
+}
 
-
+// export async function generateFullYear() {
+//   'use cache'
+//   return new Date().getFullYear();
+// }

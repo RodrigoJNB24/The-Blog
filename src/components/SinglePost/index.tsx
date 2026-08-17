@@ -1,4 +1,4 @@
-import { findBySlugPostsCached } from '@/lib/post/queries';
+import { findPublicSlugPostsCached } from '@/lib/post/queries/public';
 import Image from 'next/image';
 import PostHeading from '../PostHeading';
 import PostDate from '../PostDate';
@@ -9,7 +9,7 @@ type SinglePostProps = {
 };
 
 export default async function SinglePost({ slug }: SinglePostProps) {
-  const post = await findBySlugPostsCached(slug);
+  const post = await findPublicSlugPostsCached(slug);
 
   return (
     <article className='mb-16'>
@@ -31,7 +31,7 @@ export default async function SinglePost({ slug }: SinglePostProps) {
 
       <p className='text-xl mb-4 text-slate-600'>{post.excerpt}</p>
 
-      <SafeMarkDown markdown={post.content}/>
+      <SafeMarkDown markdown={post.content} />
     </article>
   );
 }

@@ -7,6 +7,6 @@ type AdminPostPageProps = {
 export default async function AdminPostPage({ params }: AdminPostPageProps) {
   const { id } = await params;
   return (
-   <div className='py-16 text-6xl'>ID_{id} oi</div>
+   <div className='py-16 text-6xl'>AdminPostPage ID_{id}</div>
   );
 }

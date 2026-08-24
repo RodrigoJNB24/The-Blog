@@ -1,4 +1,7 @@
 {
+  "useTabs": false,
+  "tabWidth": 2,
+  "endOfLine": "lf",
   "arrowParens": "avoid",
   "bracketSpacing": true,
   "htmlWhitespaceSensitivity": "css",
@@ -11,7 +14,5 @@
   "requirePragma": false,
   "semi": true,
   "singleQuote": true,
-  "tabWidth": 2,
-  "trailingComma": "all",
-  "useTabs": false
+  "trailingComma": "all"
 }

@@ -1,5 +1,3 @@
-'use cache';
-
 import { PostModel } from '@/models/posts/post-model';
 import { postRepository } from '@/repositories/post';
 import { cacheLife, cacheTag } from 'next/cache';
@@ -7,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
 export const findAllPublicPostsCached = cache(async () => {
+  'use cache';
   cacheLife({ revalidate: 60 });
   cacheTag('posts');
 
@@ -14,6 +13,7 @@ export const findAllPublicPostsCached = cache(async () => {
 })
 
 export const findPublicSlugPostsCached = cache(async (slug: string) => {
+  'use cache';
   cacheLife({ revalidate: 60 });
   cacheTag(`post-${slug}`);
 

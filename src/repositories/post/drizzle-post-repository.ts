@@ -7,7 +7,7 @@ import { SIMULATE_WAIT_IN_MS } from '@/lib/constants';
 
 export class DrizzlepostRepository implements PostRepository {
   async findAllPublic(): Promise<PostModel[]> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
     logColor('findAllPublic');
 
     const posts = await drizzleDB.query.posts.findMany({
@@ -19,7 +19,7 @@ export class DrizzlepostRepository implements PostRepository {
   }
 
   async findBySlugPublic(slug: string): Promise<PostModel> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
     logColor('findBySlugPublic', Date.now());
 
     const post = await drizzleDB.query.posts.findFirst({
@@ -33,7 +33,7 @@ export class DrizzlepostRepository implements PostRepository {
   }
 
   async findAll(): Promise<PostModel[]> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
     logColor('findAll');
 
     const posts = await drizzleDB.query.posts.findMany({
@@ -43,7 +43,7 @@ export class DrizzlepostRepository implements PostRepository {
   }
 
   async findById(id: string): Promise<PostModel> {
-    await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
     logColor('findById', Date.now());
 
     const post = await drizzleDB.query.posts.findFirst({

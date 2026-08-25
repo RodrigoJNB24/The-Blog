@@ -6,10 +6,10 @@ import { postsTable } from './schemas';
   await drizzleDB
     .update(postsTable)
     .set({
-      title: '10 hábitos para aumentar sua produtividade',
-      published: true,
+      title: 'Organização pessoal: por onde começar',
+      published: false,
     })
-    .where(eq(postsTable.slug, '10-habitos-para-aumentar-sua-produtividade'));
+    .where(eq(postsTable.slug, 'organizacao-pessoal-por-onde-comecar'));
 
   // posts.forEach(post => console.log(post.slug));
 })();

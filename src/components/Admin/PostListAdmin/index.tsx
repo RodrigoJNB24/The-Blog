@@ -1,11 +1,16 @@
 import { findAllPostsAdmin } from '@/lib/post/queries/admin';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { DeletePostButton } from '../Admin/DeletePostButton';
+import { DeletePostButton } from '../DeletePostButton';
+import ErrorMessage from '../../ErrorMessage';
 
 export async function PostListAdmin() {
   const posts = await findAllPostsAdmin();
 
+  if (posts.length <= 0)
+    return (
+      <ErrorMessage contentTitle='Ei! 😎' content='Bora criar alguma coisa?' />
+    );
   return (
     <div className='mb-16'>
       {posts.map(({ id, title, published }) => {
@@ -22,7 +27,7 @@ export async function PostListAdmin() {
             <Link href={`/admin/post/${id}`}>{title}</Link>
 
             {!published && (
-              <span className='text-x5 text-slate-600 px-2 italic'>
+              <span className='text-slate-600 px-2 italic'>
                 (Não publicado)
               </span>
             )}
@@ -31,7 +36,6 @@ export async function PostListAdmin() {
           </div>
         );
       })}
-      
     </div>
   );
 }

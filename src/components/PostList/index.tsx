@@ -4,6 +4,7 @@ import { findAllPublicPostsCached } from '@/lib/post/queries/public';
 
 export async function PostList() {
   const post = await findAllPublicPostsCached();
+  if(post.length <= 1) return null;
 
   return (
     <div className='grid grid-cols-1 mb-16 gap-8 md:grid-cols-2'>

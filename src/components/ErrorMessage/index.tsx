@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 
 type ErrorMessageProps = {
-  pageTitle: string;
+  pageTitle?: string;
   contentTitle: string;
   content: React.ReactNode;
 };
@@ -15,7 +15,7 @@ export default function ErrorMessage({
 }: ErrorMessageProps) {
   return (
     <>
-      <title>{pageTitle}</title>
+      {pageTitle && <title>{pageTitle}</title>}
       <div
         className={clsx(
           'min-h-80',

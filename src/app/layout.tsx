@@ -7,6 +7,7 @@ import { Header } from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Suspense } from 'react';
 import { SpinLoader } from '@/components/SpinLoader.tsx';
+import { ToastifyContainer } from '@/components/ToastifyContainer';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -47,6 +48,7 @@ export default async function RootLayout({
             {children}
             <Footer />
           </Container>
+          <ToastifyContainer />
         </Suspense>
       </body>
     </html>

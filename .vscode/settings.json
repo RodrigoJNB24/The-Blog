@@ -1,6 +1,6 @@
 {
   "window.zoomLevel": 1,
-  "breadcrumbs.enabled": false,
+  "breadcrumbs.enabled": true,
   "editor.fontSize": 14,
   "debug.console.fontSize": 14,
   "terminal.integrated.fontSize": 14,
@@ -17,7 +17,7 @@
   "code-runner.runInTerminal": false,
   "code-runner.ignoreSelection": true,
   "code-runner.executorMap": {
-    "typescript": "npx tsx",
+    "typescript": "npx tsx"
   },
 
   //"clear ; npx tsx"
@@ -25,7 +25,6 @@
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-
 
   // 🛠 Formatação e Lint
   "editor.defaultFormatter": "esbenp.prettier-vscode",

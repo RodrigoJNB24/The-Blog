@@ -11,3 +11,9 @@ export const JSON_POST_FILE_PATH = resolve(
   'seed',
   'posts.json',
 );
+
+export const IMAGE_UPLOADER_MAX_SIZE = 921600;
+
+
+export const IMAGE_UPLOADER_DIRECTORY = 'uploads'
+export const IMAGE_SERVER_URL = 'http://localhost:3000/uploads' // https://localhost:3000/uploaders/image.jpg

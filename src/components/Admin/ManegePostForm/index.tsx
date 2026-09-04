@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/Button';
+import { UploaderImage } from '@/components/ImageUploader';
 import { InputCheckBox } from '@/components/InputCheckBox';
 import { InputText } from '@/components/InputText';
 import { MarkDownEditor } from '@/components/MarkDownEditor';
@@ -43,14 +44,13 @@ export function ManegePostForm() {
           placeholder='Digite seu sobrenome'
           defaultValue={'asdasdasd'}
         />
-
+        <UploaderImage />
         <MarkDownEditor
           setValue={setContentValue}
           value={contentValue}
           textAreaName='Editor'
           labelText='Conteúdo'
         />
-
         <div className='mt-4'>
           <Button type='submit'>Enviar</Button>
         </div>

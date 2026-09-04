@@ -5,52 +5,85 @@ import { UploaderImage } from '@/components/ImageUploader';
 import { InputCheckBox } from '@/components/InputCheckBox';
 import { InputText } from '@/components/InputText';
 import { MarkDownEditor } from '@/components/MarkDownEditor';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 export function ManegePostForm() {
   const [contentValue, setContentValue] = useState('');
+  const [inputTextValue, setInputTextValue] = useState({
+    title: '',
+    coverImageUrl: '',
+    excerpt: '',
+    slug: '',
+    id: '',
+  });
+
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    setInputTextValue(preStateValue => ({
+      ...preStateValue,
+      [name]: value
+    }));
+  }
+
+
   return (
     <form action='' className='mb-16'>
       <div className='py-16 flex flex-col gap-4 flex-wrap text-slate-950 pt-0'>
-        <InputText labelText='Nome' placeholder='Digite seu nome' />
         <InputText
-          labelText='Sobrenome'
-          disabled={true}
-          placeholder='Digite seu sobrenome'
-          defaultValue={'asdasdasd'}
+          labelText='Slug'
+          name='slug'
+          readOnly={true}
+          placeholder='Slug gerada Automaticamente'
+          onChange={handleChange}
+          value={inputTextValue['slug']}
         />
+
         <InputText
-          onChange={e => console.log(e)}
-          labelText='Nome'
-          placeholder='Digite seu nome'
-          disabled={false}
+          labelText='ID'
+          name='id'
+          readOnly={true}
+          placeholder='ID gerado Automaticamente'
+          onChange={handleChange}
+          value={inputTextValue['id']}
         />
-        <InputCheckBox labelText='Sobrenome' />
+
         <InputText
-          labelText='Sobrenome'
-          disabled={true}
-          placeholder='Digite seu sobrenome'
-          defaultValue={'asdasdasd'}
+          labelText='Titulo'
+          name='title'
+          placeholder='Digite o titulo do Post'
+          onChange={handleChange}
+          value={inputTextValue['title']}
         />
-        <InputText
-          labelText='Sobrenome'
-          disabled={true}
-          placeholder='Digite seu sobrenome'
-          defaultValue={'asdasdasd'}
-        />
-        <InputText
-          labelText='Sobrenome'
-          disabled={true}
-          placeholder='Digite seu sobrenome'
-          defaultValue={'asdasdasd'}
-        />
-        <UploaderImage />
+
         <MarkDownEditor
-          setValue={setContentValue}
+          textAreaName='content'
+          labelText='Conteudo do Post'
           value={contentValue}
-          textAreaName='Editor'
-          labelText='Conteúdo'
+          setValue={setContentValue}
         />
+
+        <UploaderImage />
+
+        <InputText
+          labelText='Capa do Post'
+          name='coverImageUrl'
+          placeholder='Digite a URL da capa do Post'
+          onChange={handleChange}
+          value={inputTextValue['coverImageUrl']}
+        />
+
+        <InputText
+          labelText='Resumo do Post'
+          name='excerpt'
+          placeholder='Digite o resumo do Post'
+          onChange={handleChange}
+          value={inputTextValue['excerpt']}
+        />
+
+        <InputCheckBox labelText='Publicar?' name='published' />
+
         <div className='mt-4'>
           <Button type='submit'>Enviar</Button>
         </div>

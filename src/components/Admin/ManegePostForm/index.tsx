@@ -1,43 +1,52 @@
 'use client';
 
+import { createPostAction } from '@/actions/post/create-post-action';
 import { Button } from '@/components/Button';
 import { UploaderImage } from '@/components/ImageUploader';
 import { InputCheckBox } from '@/components/InputCheckBox';
 import { InputText } from '@/components/InputText';
 import { MarkDownEditor } from '@/components/MarkDownEditor';
-import { ChangeEvent, useState } from 'react';
+import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
+import { toastifyAdapter } from '@/lib/adapters/toastAdapter';
+import { useActionState, useEffect, useState } from 'react';
 
-export function ManegePostForm() {
-  const [contentValue, setContentValue] = useState('');
-  const [inputTextValue, setInputTextValue] = useState({
-    title: '',
-    coverImageUrl: '',
-    excerpt: '',
-    slug: '',
-    id: '',
-  });
+type ManegePostFormProps = {
+  publicPost?: PublicPost;
+};
 
+export function ManegePostForm({ publicPost }: ManegePostFormProps) {
+  const [content, setContent] = useState(publicPost?.content || '');
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const initialState = {
+    formState: makePartialPublicPost(publicPost),
+    errors: [],
+  };
+  const [state, action, isPading] = useActionState(
+    createPostAction,
+    initialState,
+  );
 
-    setInputTextValue(preStateValue => ({
-      ...preStateValue,
-      [name]: value
-    }));
-  }
+  const { formState, errors } = state;
 
+  useEffect(() => {
+    if(errors.length < 0)
+    toastifyAdapter.dismiss()
+
+    errors.forEach(message => {
+      toastifyAdapter.error(message)
+    });
+    
+  }, [errors]);
 
   return (
-    <form action='' className='mb-16'>
+    <form action={action} className='mb-16'>
       <div className='py-16 flex flex-col gap-4 flex-wrap text-slate-950 pt-0'>
         <InputText
           labelText='Slug'
           name='slug'
           readOnly={true}
           placeholder='Slug gerada Automaticamente'
-          onChange={handleChange}
-          value={inputTextValue['slug']}
+          defaultValue={formState.slug}
         />
 
         <InputText
@@ -45,23 +54,28 @@ export function ManegePostForm() {
           name='id'
           readOnly={true}
           placeholder='ID gerado Automaticamente'
-          onChange={handleChange}
-          value={inputTextValue['id']}
+          defaultValue={formState.id}
+        />
+
+        <InputText
+          labelText='Autor'
+          name='author'
+          placeholder='Digite o autor do Post'
+          defaultValue={formState.author}
         />
 
         <InputText
           labelText='Titulo'
           name='title'
           placeholder='Digite o titulo do Post'
-          onChange={handleChange}
-          value={inputTextValue['title']}
+          defaultValue={formState.title}
         />
 
         <MarkDownEditor
           textAreaName='content'
           labelText='Conteudo do Post'
-          value={contentValue}
-          setValue={setContentValue}
+          value={content}
+          setValue={setContent}
         />
 
         <UploaderImage />
@@ -70,19 +84,21 @@ export function ManegePostForm() {
           labelText='Capa do Post'
           name='coverImageUrl'
           placeholder='Digite a URL da capa do Post'
-          onChange={handleChange}
-          value={inputTextValue['coverImageUrl']}
+          defaultValue={formState.coverImageUrl}
         />
 
         <InputText
           labelText='Resumo do Post'
           name='excerpt'
           placeholder='Digite o resumo do Post'
-          onChange={handleChange}
-          value={inputTextValue['excerpt']}
+          defaultValue={formState.excerpt}
         />
 
-        <InputCheckBox labelText='Publicar?' name='published' />
+        <InputCheckBox
+          labelText='Publicar?'
+          name='published'
+          defaultChecked={formState.published}
+        />
 
         <div className='mt-4'>
           <Button type='submit'>Enviar</Button>

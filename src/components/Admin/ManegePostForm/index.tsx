@@ -8,6 +8,7 @@ import { InputText } from '@/components/InputText';
 import { MarkDownEditor } from '@/components/MarkDownEditor';
 import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
 import { toastifyAdapter } from '@/lib/adapters/toastAdapter';
+import { usePathname } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 
 type ManegePostFormProps = {
@@ -16,6 +17,7 @@ type ManegePostFormProps = {
 
 export function ManegePostForm({ publicPost }: ManegePostFormProps) {
   const [content, setContent] = useState(publicPost?.content || '');
+  const pathname = usePathname();
 
   const initialState = {
     formState: makePartialPublicPost(publicPost),
@@ -29,14 +31,18 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
   const { formState, errors } = state;
 
   useEffect(() => {
-    if(errors.length < 0)
-    toastifyAdapter.dismiss()
+    if (errors.length < 0) toastifyAdapter.dismiss();
 
     errors.forEach(message => {
-      toastifyAdapter.error(message)
+      toastifyAdapter.error(message);
     });
-    
   }, [errors]);
+
+  useEffect(() => {
+    if (pathname.endsWith('new')) return;
+    toastifyAdapter.dismiss();
+    toastifyAdapter.sucess('Post enviado com sucesso!');
+  }, [pathname]);
 
   return (
     <form action={action} className='mb-16'>

@@ -30,11 +30,12 @@ export function PostCoverImage({ imageProps, linkProps }: PostCoverImageProps) {
           'transition',
           imageProps.className,
         )}
+        priority
         src={imageProps.src}
         width={imageProps.width}
         height={imageProps.height}
         alt={imageProps.alt}
-      />  
+      />
     </Link>
   );
 }

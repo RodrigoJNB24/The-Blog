@@ -1,6 +1,7 @@
 'use client';
 
 import { createPostAction } from '@/actions/post/create-post-action';
+import { updatePostAction } from '@/actions/post/update-post-action';
 import { Button } from '@/components/Button';
 import { UploaderImage } from '@/components/ImageUploader';
 import { InputCheckBox } from '@/components/InputCheckBox';
@@ -8,27 +9,40 @@ import { InputText } from '@/components/InputText';
 import { MarkDownEditor } from '@/components/MarkDownEditor';
 import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
 import { toastifyAdapter } from '@/lib/adapters/toastAdapter';
-import { usePathname } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
+
+type PostActionMode = 'create' | 'update';
 
 type ManegePostFormProps = {
   publicPost?: PublicPost;
+  mode?: PostActionMode;
 };
 
-export function ManegePostForm({ publicPost }: ManegePostFormProps) {
-  const [content, setContent] = useState(publicPost?.content || '');
-  const pathname = usePathname();
-
+export function ManegePostForm({
+  publicPost,
+  mode = 'create',
+}: ManegePostFormProps) {
+  const [content, setContent] = useState(publicPost?.content ?? '');
+  const searchParams = useSearchParams();
+  const isCreated = searchParams.get('created');
+  const router = useRouter();
   const initialState = {
     formState: makePartialPublicPost(publicPost),
     errors: [],
   };
+
+  const actionPostMap = {
+    create: createPostAction,
+    update: updatePostAction,
+  };
+
   const [state, action, isPading] = useActionState(
-    createPostAction,
+    actionPostMap[mode],
     initialState,
   );
 
-  const { formState, errors } = state;
+  const { formState, errors, sucess } = state;
 
   useEffect(() => {
     if (errors.length < 0) toastifyAdapter.dismiss();
@@ -39,10 +53,22 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
   }, [errors]);
 
   useEffect(() => {
-    if (pathname.endsWith('new')) return;
-    toastifyAdapter.dismiss();
-    toastifyAdapter.sucess('Post enviado com sucesso!');
-  }, [pathname]);
+    if (sucess) {
+      toastifyAdapter.dismiss();
+      toastifyAdapter.sucess('Post atualizado com sucesso');
+    }
+  }, [sucess]);
+
+  useEffect(() => {
+    if (isCreated === '1') {
+      toastifyAdapter.dismiss();
+      toastifyAdapter.sucess('Post criado com sucesso!');
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete('created');
+      router.replace(url.toString());
+    }
+  }, [isCreated, router]);
 
   return (
     <form action={action} className='mb-16'>
@@ -53,6 +79,7 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
           readOnly={true}
           placeholder='Slug gerada Automaticamente'
           defaultValue={formState.slug}
+          disabled={isPading}
         />
 
         <InputText
@@ -61,6 +88,7 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
           readOnly={true}
           placeholder='ID gerado Automaticamente'
           defaultValue={formState.id}
+          disabled={isPading}
         />
 
         <InputText
@@ -68,6 +96,7 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
           name='author'
           placeholder='Digite o autor do Post'
           defaultValue={formState.author}
+          disabled={isPading}
         />
 
         <InputText
@@ -75,6 +104,7 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
           name='title'
           placeholder='Digite o titulo do Post'
           defaultValue={formState.title}
+          disabled={isPading}
         />
 
         <MarkDownEditor
@@ -82,15 +112,17 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
           labelText='Conteudo do Post'
           value={content}
           setValue={setContent}
+          disabled={isPading}
         />
 
-        <UploaderImage />
+        <UploaderImage isSending={isPading} />
 
         <InputText
           labelText='Capa do Post'
           name='coverImageUrl'
           placeholder='Digite a URL da capa do Post'
           defaultValue={formState.coverImageUrl}
+          disabled={isPading}
         />
 
         <InputText
@@ -98,16 +130,20 @@ export function ManegePostForm({ publicPost }: ManegePostFormProps) {
           name='excerpt'
           placeholder='Digite o resumo do Post'
           defaultValue={formState.excerpt}
+          disabled={isPading}
         />
 
         <InputCheckBox
           labelText='Publicar?'
           name='published'
           defaultChecked={formState.published}
+          disabled={isPading}
         />
 
         <div className='mt-4'>
-          <Button type='submit'>Enviar</Button>
+          <Button disabled={isPading} type='submit'>
+            Enviar
+          </Button>
         </div>
       </div>
     </form>

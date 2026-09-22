@@ -24,7 +24,6 @@ export default function SafeMarkDown({ markdown }: SafeMarkDownProps) {
         components={{
           table: ({ node, ...props }) => {
             if (!node?.children) return '';
-            console.log(node)
             return (
               <div className='overflow-x-auto'>
                 <table {...props} />

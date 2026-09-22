@@ -4,12 +4,12 @@ import { cache } from 'react';
 
 export const findPostByIdAdminCached = cache(async (id: string) => {
   'use cache';
-  cacheLife({ revalidate: 60 });
+  cacheLife({ revalidate: 0 });
   return await postRepository.findById(id);
 });
 
-export const findAllPostsAdmin = cache(async () => {
+export const findAllPostsAdminCached = cache(async () => {
   'use cache';
-  cacheLife({ revalidate: 60 });
+  cacheLife({ revalidate: 0 });
   return await postRepository.findAll();
 });

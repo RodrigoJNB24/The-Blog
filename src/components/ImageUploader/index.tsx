@@ -9,7 +9,11 @@ import { uploadImageAction } from '@/actions/upload/upload-image-action';
 import { PreviewImage } from '../DialogPreview';
 import { usePathname } from 'next/navigation';
 
-export function UploaderImage() {
+type UploaderImageProps = {
+  isSending: boolean;
+}
+
+export function UploaderImage({ isSending }: UploaderImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, startTransition] = useTransition();
   const [imgUrl, setImgUrl] = useState('');
@@ -94,7 +98,11 @@ export function UploaderImage() {
   return (
     <>
       <div className='flex gap-4'>
-        <Button type='button' onClick={handleChoosenFile} disabled={isUploading}>
+        <Button
+          type='button'
+          onClick={handleChoosenFile}
+          disabled={isUploading || isSending}
+        >
           <ImageUpIcon />
           Enviar Imagem
         </Button>
@@ -129,7 +137,7 @@ export function UploaderImage() {
         accept='image/*'
         ref={fileInputRef}
         onChange={handleChange}
-        disabled={isUploading}
+        disabled={isUploading || isSending}
       />
 
       {isVisible && (

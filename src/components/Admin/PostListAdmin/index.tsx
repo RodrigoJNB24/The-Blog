@@ -1,11 +1,11 @@
-import { findAllPostsAdmin } from '@/lib/post/queries/admin';
+import { findAllPostsAdminCached } from '@/lib/post/queries/admin';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { DeletePostButton } from '../DeletePostButton';
 import ErrorMessage from '../../ErrorMessage';
 
 export async function PostListAdmin() {
-  const posts = await findAllPostsAdmin();
+  const posts = await findAllPostsAdminCached();
 
   if (posts.length <= 0)
     return (

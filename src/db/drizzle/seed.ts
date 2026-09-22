@@ -15,6 +15,3 @@ import { postsTable } from "./schemas";
   }
 })()
 
-
-// const posts = await drizzleDB.select().from(postsTable)
-// posts.forEach(({title}) => console.log(title))

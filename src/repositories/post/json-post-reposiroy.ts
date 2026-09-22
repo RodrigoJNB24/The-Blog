@@ -1,6 +1,6 @@
 import { PostModel } from '@/models/posts/post-model';
 import { PostRepository } from './post-respository';
-import { readFile } from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 import { JSON_POST_FILE_PATH, SIMULATE_WAIT_IN_MS } from '@/lib/constants';
 
 export class JsonPostRepository implements PostRepository {
@@ -23,8 +23,6 @@ export class JsonPostRepository implements PostRepository {
 
   async findAll(): Promise<PostModel[]> {
     const posts = await this.readFromDisk();
-
-    console.log('### FindAll ###');
     return posts;
   }
 
@@ -46,5 +44,63 @@ export class JsonPostRepository implements PostRepository {
     if (!post) throw new Error('Post não enconstrado para slug');
 
     return post;
+  }
+
+  async create(post: PostModel): Promise<PostModel> {
+    const postExist = await this.findById(post.id);
+
+    if (postExist) {
+      throw new Error('Post já existe na base de dados');
+    }
+
+    const posts = await this.findAll();
+    const postsJSON = JSON.stringify(posts.push(post));
+    await writeFile(JSON_POST_FILE_PATH, postsJSON);
+
+    return post;
+  }
+
+  async delete(id: string): Promise<PostModel> {
+    const post = await this.findById(id);
+
+    if (!post) {
+      throw new Error('Post não existe na base de dados');
+    }
+
+    const posts = await this.findAll();
+    const indexPost = posts.indexOf(post);
+
+    const postsJSON = JSON.stringify(posts.toSpliced(indexPost, 1));
+    await writeFile(JSON_POST_FILE_PATH, postsJSON);
+
+    return post;
+  }
+
+  async update(
+    id: string,
+    newPostData: Omit<PostModel, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
+  ): Promise<PostModel> {
+    const oldPost = await this.findById(id);
+
+    if (!oldPost) {
+      throw new Error('Post não existe na base de dados');
+    }
+
+    const posts = await this.findAll();
+    const newPosts = posts.map(post => {
+      if (post.id === oldPost.id) {
+        return { ...post, ...newPostData };
+      }
+      return post;
+    });
+
+    const postsJSON = JSON.stringify(newPosts);
+
+    await writeFile(JSON_POST_FILE_PATH, postsJSON);
+
+    return {
+      ...oldPost,
+      ...newPostData,
+    };
   }
 }

@@ -17,7 +17,6 @@ export function MenuAdmin() {
 
   useEffect(() => {
     setIsOpen(false);
-    console.log(pathname)
   },[pathname])
 
   const navClasses = clsx(

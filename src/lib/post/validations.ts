@@ -45,7 +45,7 @@ const PostBaseSchema = z.object({
 
 export const PostCreateSchema = PostBaseSchema;
 export const PostUpdateSchema = PostBaseSchema.extend({
-  // id: z.string().trim().refine(val => isUuid(val))
+  id: z.string().trim().refine(val => isUuid(val))
 })
 
 

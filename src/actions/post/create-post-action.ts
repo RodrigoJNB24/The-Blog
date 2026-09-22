@@ -13,6 +13,7 @@ import { randomUUID } from 'node:crypto';
 type CreatePostActionState = {
   formState: PublicPost;
   errors: string[];
+  sucess?: true;
 };
 
 export async function createPostAction(
@@ -63,7 +64,8 @@ export async function createPostAction(
       formState: prevState.formState,
       errors: ['Error não identificado'],
     };
-  } 
+  }
+
   revalidateTag('posts', { expire: 0 });
-  redirect(`/admin/post/${newPost.id}`);
+  redirect(`/admin/post/${newPost.id}?created=1`);
 }

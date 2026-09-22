@@ -3,11 +3,9 @@
 import { Trash2Icon } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { deletePostAction } from '../../../actions/post/delete-post-action';
-import { asyncDelay } from '@/utils/async_delay';
 import { Dialog } from '@/components/Dialog';
 import { toastifyAdapter } from '@/lib/adapters/toastAdapter';
 import clsx from 'clsx';
-import { Button } from '@/components/Button';
 
 type DeletePostButtonProps = {
   id: string;
@@ -31,6 +29,7 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
         toastifyAdapter.error(`Error: ${result.error}`);
         return;
       }
+
       toastifyAdapter.sucess(`O Post: "${title}". Foi deletado.`);
     });
   };

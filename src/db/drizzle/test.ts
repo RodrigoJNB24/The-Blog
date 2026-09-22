@@ -11,5 +11,4 @@ import { postsTable } from './schemas';
     })
     .where(eq(postsTable.slug, 'organizacao-pessoal-por-onde-comecar'));
 
-  // posts.forEach(post => console.log(post.slug));
 })();

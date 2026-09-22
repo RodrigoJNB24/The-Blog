@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 
 export class DrizzlepostRepository implements PostRepository {
   async findAllPublic(): Promise<PostModel[]> {
-    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    
     logColor('findAllPublic');
 
     const posts = await drizzleDB.query.posts.findMany({
@@ -19,7 +19,7 @@ export class DrizzlepostRepository implements PostRepository {
   }
 
   async findBySlugPublic(slug: string): Promise<PostModel> {
-    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    
     logColor('findBySlugPublic', Date.now());
 
     const post = await drizzleDB.query.posts.findFirst({
@@ -33,7 +33,7 @@ export class DrizzlepostRepository implements PostRepository {
   }
 
   async findAll(): Promise<PostModel[]> {
-    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    
     logColor('findAll');
 
     const posts = await drizzleDB.query.posts.findMany({
@@ -43,7 +43,7 @@ export class DrizzlepostRepository implements PostRepository {
   }
 
   async findById(id: string): Promise<PostModel> {
-    // await asyncDelay(SIMULATE_WAIT_IN_MS, true);
+    
     logColor('findById', Date.now());
 
     const post = await drizzleDB.query.posts.findFirst({
@@ -100,18 +100,18 @@ export class DrizzlepostRepository implements PostRepository {
       author: newPostData.author,
       content: newPostData.content,
       coverImageUrl: newPostData.coverImageUrl,
-      except: newPostData.excerpt,
+      excerpt: newPostData.excerpt,
       published: newPostData.published,
       title: newPostData.title,
       updatedAt,
     }
-    
+
     await drizzleDB.update(postsTable).set(postData).where(eq(postsTable.id, id));
 
     return {
       ...oldPost,
       ...postData,
-    }; 
+    };
 
   }
 }

@@ -4,14 +4,13 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 import { Button } from '../Button';
 import { CopyIcon, EyeIcon, ImageUpIcon } from 'lucide-react';
 import { toastifyAdapter } from '@/lib/adapters/toastAdapter';
-import { IMAGE_UPLOADER_MAX_SIZE } from '@/lib/constants';
 import { uploadImageAction } from '@/actions/upload/upload-image-action';
 import { PreviewImage } from '../DialogPreview';
 import { usePathname } from 'next/navigation';
 
 type UploaderImageProps = {
   isSending: boolean;
-}
+};
 
 export function UploaderImage({ isSending }: UploaderImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -46,8 +45,10 @@ export function UploaderImage({ isSending }: UploaderImageProps) {
       return;
     }
 
-    if (file?.size > IMAGE_UPLOADER_MAX_SIZE) {
-      const readableMaxSize = IMAGE_UPLOADER_MAX_SIZE / 1024;
+    const imageUploaderMaxSize =
+      Number(process.env.NEXT_PUBLIC_IMAGE_UPLOADER_MAX_SIZE) || 921600;
+    if (file?.size > imageUploaderMaxSize) {
+      const readableMaxSize = imageUploaderMaxSize / 1024;
       toastifyAdapter.error(`Imagem muito grande. Max.: ${readableMaxSize}KB`);
       fileInput.value = '';
       setImgUrl('');

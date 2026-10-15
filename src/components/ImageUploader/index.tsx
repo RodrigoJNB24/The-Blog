@@ -48,10 +48,13 @@ export function UploaderImage({ isSending }: UploaderImageProps) {
     const imageUploaderMaxSize =
       Number(process.env.NEXT_PUBLIC_IMAGE_UPLOADER_MAX_SIZE) || 921600;
     if (file?.size > imageUploaderMaxSize) {
-      const readableMaxSize = imageUploaderMaxSize / 1024;
+
+      const readableMaxSize = (imageUploaderMaxSize / 1024).toFixed(2);
       toastifyAdapter.error(`Imagem muito grande. Max.: ${readableMaxSize}KB`);
+
       fileInput.value = '';
       setImgUrl('');
+      
       return;
     }
 
